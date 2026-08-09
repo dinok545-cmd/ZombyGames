@@ -21,6 +21,22 @@ import { clothes, past, pronouns, type Q } from "./data";
 import { raceMusic } from "./raceMusic";
 type Screen = "home" | "map" | "game" | "result" | "victory";
 type Game = "past" | "pronouns" | "clothes";
+type SavedProgress = { cleared: Game[]; score: number };
+const progressKey = "ze-progress";
+const isGame = (value: unknown): value is Game =>
+  value === "past" || value === "pronouns" || value === "clothes";
+const loadProgress = (): SavedProgress => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(progressKey) || "null");
+    if (!saved || !Array.isArray(saved.cleared)) return { cleared: [], score: 0 };
+    return {
+      cleared: saved.cleared.filter(isGame),
+      score: Number.isFinite(saved.score) ? Math.max(0, saved.score) : 0,
+    };
+  } catch {
+    return { cleared: [], score: 0 };
+  }
+};
 const meta = {
   past: {
     place: "SCHOOL DISTRICT",
@@ -43,10 +59,11 @@ const meta = {
 } as const;
 const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
 export function App() {
+  const savedProgress = useMemo(loadProgress, []);
   const [screen, setScreen] = useState<Screen>("home");
   const [game, setGame] = useState<Game>("past");
-  const [cleared, setCleared] = useState<Game[]>([]);
-  const [score, setScore] = useState(0);
+  const [cleared, setCleared] = useState<Game[]>(savedProgress.cleared);
+  const [score, setScore] = useState(savedProgress.score);
   const [muted, setMuted] = useState(
     () => localStorage.getItem("ze-muted") === "1",
   );
@@ -59,9 +76,6 @@ export function App() {
     won: false,
     score: 0,
   });
-  useEffect(() => {
-    localStorage.removeItem("ze-cleared");
-  }, []);
   const audio = useRef<AudioContext | null>(null);
   const sfx = useCallback(
     (ok = true) => {
@@ -104,6 +118,14 @@ export function App() {
     raceMusic.start(musicMuted, "menu");
     setScreen("map");
   };
+  const newGame = () => {
+    localStorage.removeItem(progressKey);
+    setCleared([]);
+    setScore(0);
+    setGame("past");
+    setResult({ correct: 0, total: 10, won: false, score: 0 });
+    openMap();
+  };
   const start = (g: Game) => {
     raceMusic.start(musicMuted, g);
     setGame(g);
@@ -116,10 +138,17 @@ export function App() {
   const finish = (correct: number, total: number, points: number) => {
     raceMusic.start(musicMuted, "menu");
     const won = correct >= meta[game].goal;
-    setScore((s) => s + points);
+    const nextScore = score + points;
+    const nextCleared =
+      won && !cleared.includes(game) ? [...cleared, game] : cleared;
+    setScore(nextScore);
     setResult({ correct, total, won, score: points });
-    if (won && !cleared.includes(game)) setCleared([...cleared, game]);
-    setScreen(won && cleared.length === 2 ? "victory" : "result");
+    setCleared(nextCleared);
+    localStorage.setItem(
+      progressKey,
+      JSON.stringify({ cleared: nextCleared, score: nextScore }),
+    );
+    setScreen(won && nextCleared.length === 3 ? "victory" : "result");
   };
   return (
     <main className={`app screen-${screen}`}>
@@ -130,7 +159,13 @@ export function App() {
         toggleSound={toggle}
       />
       {screen === "home" && (
-        <Home onStart={openMap} muted={muted} toggle={toggle} />
+        <Home
+          onContinue={openMap}
+          onNewGame={newGame}
+          hasProgress={cleared.length > 0 || score > 0}
+          muted={muted}
+          toggle={toggle}
+        />
       )}
       {screen === "map" && (
         <CityMap
@@ -163,9 +198,9 @@ export function App() {
       )}
       {screen === "victory" && (
         <Victory
-          score={score + result.score}
+          score={score}
           reset={() => {
-            localStorage.removeItem("ze-cleared");
+            localStorage.removeItem(progressKey);
             setCleared([]);
             setScore(0);
             setScreen("home");
@@ -220,11 +255,15 @@ function AudioControls({
   );
 }
 function Home({
-  onStart,
+  onContinue,
+  onNewGame,
+  hasProgress,
   muted,
   toggle,
 }: {
-  onStart: () => void;
+  onContinue: () => void;
+  onNewGame: () => void;
+  hasProgress: boolean;
   muted: boolean;
   toggle: () => void;
 }) {
@@ -250,9 +289,18 @@ function Home({
           <br />
           Save the city one area at a time.
         </p>
-        <button className="primary huge" onClick={onStart}>
-          SAVE THE CITY <ChevronRight />
-        </button>
+        <div className="hero-actions">
+          <button
+            className="primary huge"
+            onClick={onContinue}
+            disabled={!hasProgress}
+          >
+            CONTINUE GAME <ChevronRight />
+          </button>
+          <button className="secondary huge" onClick={onNewGame}>
+            NEW GAME <RotateCcw />
+          </button>
+        </div>
         <div className="mission">
           <span>03</span>
           <p>
@@ -263,8 +311,11 @@ function Home({
         </div>
       </div>
       <footer className="hero-foot">
-        SIGNAL FOUND <i />
-        <span>PROGRESS RESETS WHEN YOU REFRESH</span>
+        <a href="https://vk.ru/akhmedovadina" target="_blank" rel="noreferrer">
+          VK // AKHMEDOVADINA
+        </a>
+        <i />
+        <span>YOUR PROGRESS IS SAVED</span>
       </footer>
     </section>
   );
