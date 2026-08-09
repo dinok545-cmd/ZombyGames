@@ -24,19 +24,19 @@ type Game = "past" | "pronouns" | "clothes";
 const meta = {
   past: {
     place: "SCHOOL DISTRICT",
-    title: "Оборона баррикады",
+    title: "Defense Line",
     topic: "PAST SIMPLE",
     goal: 7,
   },
   pronouns: {
     place: "DOWNTOWN",
-    title: "Зомби-мемори",
+    title: "Zombie Memory",
     topic: "PRONOUNS",
     goal: 6,
   },
   clothes: {
     place: "SHOPPING MALL",
-    title: "Словесная клетка",
+    title: "Word Cage",
     topic: "CLOTHES",
     goal: 8,
   },
@@ -345,10 +345,10 @@ function CityMap({
               </div>
               <p>
                 {g === "past"
-                  ? "Построй оборону с помощью правильных форм глаголов."
+                  ? "Choose the correct verb form in the Past Simple."
                   : g === "pronouns"
-                    ? "Лови заражённых, выбирая верное местоимение."
-                    : "Назови предмет одежды до того, как зомби подойдёт."}
+                    ? "Catch the infected while recalling English pronouns."
+                    : "Type the clothing word and catch the zombie."}
               </p>
               <button onClick={() => start(g)}>
                 {cleared.includes(g) ? "СЫГРАТЬ СНОВА" : "НАЧАТЬ МИССИЮ"}{" "}
