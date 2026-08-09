@@ -8,4 +8,5 @@ import './zombie-art.css';
 import './past-arena.css';
 import './memory-game.css';
 import './hangman-game.css';
+import './audio-controls.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);
