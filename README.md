@@ -9,6 +9,8 @@ npm install
 npm run dev
 ```
 
+При локальной разработке откройте `http://localhost:5173/app.html`.
+
 ## Проверка
 
 ```bash
