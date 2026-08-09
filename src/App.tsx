@@ -906,7 +906,7 @@ function ClothesHangman({
           <small>WHAT IS THIS?</small>
           <div className="clothes-image">
             <img
-                src={`${import.meta.env.BASE_URL}images/clothes/${item.icon}.png`}
+              src={`${import.meta.env.BASE_URL}images/clothes/${item.icon}.png?v=clothes-2`}
               alt={item.ru}
             />
           </div>
