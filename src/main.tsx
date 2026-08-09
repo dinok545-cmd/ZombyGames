@@ -6,4 +6,6 @@ import './past-game.css';
 import './pronouns-race.css';
 import './zombie-art.css';
 import './past-arena.css';
+import './memory-game.css';
+import './hangman-game.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);
