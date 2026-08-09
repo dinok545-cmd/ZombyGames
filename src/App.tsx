@@ -197,24 +197,24 @@ function AudioControls({
   toggleSound: () => void;
 }) {
   return (
-    <div className="audio-controls" aria-label="Настройки аудио">
+    <div className="audio-controls" aria-label="Audio settings">
       <button
         className={musicMuted ? "is-muted" : ""}
         onClick={toggleMusic}
         aria-pressed={musicMuted}
-        aria-label={musicMuted ? "Включить музыку" : "Выключить музыку"}
+        aria-label={musicMuted ? "Turn music on" : "Turn music off"}
       >
         {musicMuted ? <VolumeX /> : <Music />}
-        <span>МУЗЫКА</span>
+        <span>MUSIC</span>
       </button>
       <button
         className={soundMuted ? "is-muted" : ""}
         onClick={toggleSound}
         aria-pressed={soundMuted}
-        aria-label={soundMuted ? "Включить эффекты" : "Выключить эффекты"}
+        aria-label={soundMuted ? "Turn sound on" : "Turn sound off"}
       >
         {soundMuted ? <VolumeX /> : <Volume2 />}
-        <span>ЭФФЕКТЫ</span>
+        <span>SOUND</span>
       </button>
     </div>
   );
@@ -246,25 +246,25 @@ function Home({
           <em>ENGLISH</em>
         </h1>
         <p className="lead">
-          Учи английский. Побеждай заражённых.
+          Learn English. Beat the infected.
           <br />
-          Освободи город район за районом.
+          Save the city one area at a time.
         </p>
         <button className="primary huge" onClick={onStart}>
-          СПАСТИ ГОРОД <ChevronRight />
+          SAVE THE CITY <ChevronRight />
         </button>
         <div className="mission">
           <span>03</span>
           <p>
-            <b>РАЙОНА ЗАРАЖЕНЫ</b>
+            <b>INFECTED AREAS</b>
             <br />
-            Только твои знания остановят вспышку.
+            Your English can stop the outbreak.
           </p>
         </div>
       </div>
       <footer className="hero-foot">
-        СИГНАЛ ОБНАРУЖЕН <i />
-        <span>ПРОГРЕСС СОХРАНЯЕТСЯ АВТОМАТИЧЕСКИ</span>
+        SIGNAL FOUND <i />
+        <span>PROGRESS RESETS WHEN YOU REFRESH</span>
       </footer>
     </section>
   );
@@ -288,14 +288,14 @@ function CityMap({
     <section className="map-page">
       <header className="top">
         <button className="back" onClick={home}>
-          <ArrowLeft /> ГЛАВНАЯ
+          <ArrowLeft /> HOME
         </button>
         <div className="brand">
           <Skull /> ZOMBIE ENGLISH
         </div>
         <div className="top-actions">
           <span>
-            ОЧКИ <b>{score.toString().padStart(4, "0")}</b>
+            SCORE <b>{score.toString().padStart(4, "0")}</b>
           </span>
           <Sound muted={muted} toggle={toggle} />
         </div>
@@ -303,16 +303,16 @@ function CityMap({
       <div className="map-head">
         <div>
           <p className="eyebrow">
-            <span /> ОПЕРАЦИЯ: ЧИСТЫЙ ГОРОД
+            <span /> OPERATION: CLEAN CITY
           </p>
           <h2>
-            КАРТА <em>ЗАРАЖЕНИЯ</em>
+            INFECTION <em>MAP</em>
           </h2>
         </div>
         <p>
-          Выбери район и выполни учебную миссию.
+          Choose an area and start a learning mission.
           <br />
-          Очисти все три зоны, чтобы спасти город.
+          Clear all three areas to save the city.
         </p>
       </div>
       <div className="districts">
@@ -326,10 +326,10 @@ function CityMap({
               <span className="status">
                 {cleared.includes(g) ? (
                   <>
-                    <Check /> ОЧИЩЕН
+                    <Check /> CLEAR
                   </>
                 ) : (
-                  <>ЗАРАЖЁН</>
+                  <>INFECTED</>
                 )}
               </span>
               <div className="pin">
@@ -341,7 +341,7 @@ function CityMap({
               <h3>{meta[g].title}</h3>
               <div className="topic">
                 <span>{meta[g].topic}</span>
-                <span>{g === "pronouns" ? "12 ЗАДАНИЙ" : "10 ЗАДАНИЙ"}</span>
+                <span>{g === "pronouns" ? "12 TASKS" : "10 TASKS"}</span>
               </div>
               <p>
                 {g === "past"
@@ -351,7 +351,7 @@ function CityMap({
                     : "Type the clothing word and catch the zombie."}
               </p>
               <button onClick={() => start(g)}>
-                {cleared.includes(g) ? "СЫГРАТЬ СНОВА" : "НАЧАТЬ МИССИЮ"}{" "}
+                {cleared.includes(g) ? "PLAY AGAIN" : "START MISSION"}{" "}
                 <ChevronRight />
               </button>
             </div>
@@ -359,11 +359,11 @@ function CityMap({
         ))}
       </div>
       <div className="campaign">
-        <b>ПРОГРЕСС КАМПАНИИ</b>
+        <b>MISSION PROGRESS</b>
         <div className="bar">
           <i style={{ width: `${(cleared.length / 3) * 100}%` }} />
         </div>
-        <strong>{cleared.length} / 3 РАЙОНА ОЧИЩЕНО</strong>
+        <strong>{cleared.length} / 3 AREAS CLEAR</strong>
       </div>
     </section>
   );
@@ -461,7 +461,7 @@ function GameScreen({
       setStreak((v) => v + 1);
       setFeedback({
         ok: true,
-        text: game === "pronouns" ? "ЗОМБИ ПОЙМАН!" : "ТОЧНО В ЦЕЛЬ!",
+        text: game === "pronouns" ? "ZOMBIE CAUGHT!" : "GOOD SHOT!",
       });
     } else {
       setStreak(0);
@@ -471,7 +471,7 @@ function GameScreen({
         ok: false,
         text:
           game === "clothes"
-            ? `Подсказка: ${expected[0]}… — ${cloth.ru}`
+            ? `Hint: it starts with ${expected[0].toUpperCase()}`
             : current.tip,
       });
     }
@@ -532,11 +532,11 @@ function GameScreen({
     <section className={`game-page game-${game}`}>
       <header className="game-top">
         <button className="back" onClick={back}>
-          <ArrowLeft /> КАРТА
+          <ArrowLeft /> MAP
         </button>
         <div className="mission-title">
           <small>
-            МИССИЯ 0{game === "past" ? 1 : game === "pronouns" ? 2 : 3}
+            MISSION 0{game === "past" ? 1 : game === "pronouns" ? 2 : 3}
           </small>
           <b>
             {meta[game].place} // {meta[game].topic}
@@ -544,7 +544,7 @@ function GameScreen({
         </div>
         <div className="hud">
           <span>
-            ОЧКИ <b>{correct * 100}</b>
+            SCORE <b>{correct * 100}</b>
           </span>
           {game === "past" ? (
             <span className="lives">
@@ -555,7 +555,7 @@ function GameScreen({
           ) : game === "pronouns" ? (
             <>
               <span className="energy-hud">
-                <Zap /> ЭНЕРГИЯ <b>{energy}/3</b>
+                <Zap /> ENERGY <b>{energy}/3</b>
               </span>
               <span>
                 <Clock3 /> <b>00:{String(time).padStart(2, "0")}</b>
@@ -571,7 +571,7 @@ function GameScreen({
           {game === "past" ? (
             <div
               className="zombie-answers"
-              aria-label="Варианты ответов на зомби"
+              aria-label="Answer choices on zombies"
             >
               {current.options.map((option, i) => (
                 <button
@@ -579,7 +579,7 @@ function GameScreen({
                   key={option}
                   disabled={!!feedback}
                   onClick={() => answer(option)}
-                  aria-label={`Вариант ${i + 1}: ${option}`}
+                  aria-label={`Choice ${i + 1}: ${option}`}
                 >
                   <span className="z-option">
                     <kbd>{i + 1}</kbd>
@@ -621,29 +621,29 @@ function GameScreen({
             <Crosshair />
             <b>
               {game === "pronouns"
-                ? "ПОГОНЯ ПО ЦЕНТРУ"
+                ? "CITY CHASE"
                 : game === "past"
-                  ? "ВЫБЕРИ НУЖНОГО ЗОМБИ"
-                  : "ЦЕЛЬ ПРИБЛИЖАЕТСЯ"}
+                  ? "CHOOSE THE RIGHT ZOMBIE"
+                  : "TARGET IS CLOSE"}
             </b>
             <span>
               {game === "pronouns"
-                ? "ЛОВИ ТОЛЬКО ПРАВИЛЬНУЮ ЦЕЛЬ"
+                ? "CATCH THE RIGHT TARGET"
                 : feedback?.ok
-                  ? "УГРОЗА УСТРАНЕНА"
-                  : `${Math.max(4, 18 - idx)} МЕТРОВ`}
+                  ? "TARGET STOPPED"
+                  : `${Math.max(4, 18 - idx)} METRES`}
             </span>
           </div>
         </div>
         <div className="question-panel">
           <div className="progress-line">
             <span>
-              ЗАДАНИЕ {idx + 1} / {total}
+              TASK {idx + 1} / {total}
             </span>
             <i>
               <b style={{ width: `${(idx / total) * 100}%` }} />
             </i>
-            {streak >= 2 && <strong>СЕРИЯ ×{streak}</strong>}
+            {streak >= 2 && <strong>STREAK ×{streak}</strong>}
           </div>
           {game === "clothes" ? (
             <ClothesQuestion
@@ -658,10 +658,10 @@ function GameScreen({
             <>
               <small className="rule">
                 {game === "past"
-                  ? "НАЖМИ НА ЗОМБИ С ПРАВИЛЬНЫМ ОТВЕТОМ"
+                  ? "CLICK THE ZOMBIE WITH THE RIGHT ANSWER"
                   : game === "pronouns"
-                    ? "ПОЙМАЙ ЗОМБИ С ПРАВИЛЬНЫМ ОТВЕТОМ"
-                    : "ВЫБЕРИ ПРАВИЛЬНЫЙ ВАРИАНТ"}
+                    ? "CATCH THE ZOMBIE WITH THE RIGHT ANSWER"
+                    : "CHOOSE THE RIGHT ANSWER"}
               </small>
               <h2>{current.prompt}</h2>
             </>
@@ -675,19 +675,19 @@ function GameScreen({
                 <b>{feedback.text}</b>
                 {!feedback.ok && game !== "clothes" && (
                   <span>
-                    Правильный ответ: <strong>{current.answer}</strong>
+                    Right answer: <strong>{current.answer}</strong>
                   </span>
                 )}
               </p>
               {game === "clothes" && (
                 <button onClick={next}>
-                  {idx + 1 >= total ? "РЕЗУЛЬТАТ" : "ДАЛЬШЕ"} <ChevronRight />
+                  {idx + 1 >= total ? "RESULT" : "NEXT"} <ChevronRight />
                 </button>
               )}
             </div>
           )}
           <p className="keyhint">
-            <kbd>1</kbd>–<kbd>4</kbd> выбрать цель <span>•</span> район:{" "}
+            <kbd>1</kbd>–<kbd>4</kbd> choose a target <span>•</span> area:{" "}
             {meta[game].place}
           </p>
         </div>
@@ -716,18 +716,18 @@ function PronounMemory({
   const pairs = useMemo(
     () =>
       shuffle([
-        { word: "I", translation: "я" },
-        { word: "me", translation: "меня / мне" },
-        { word: "my", translation: "мой / моя" },
-        { word: "he", translation: "он" },
-        { word: "him", translation: "его / ему" },
-        { word: "his", translation: "его" },
-        { word: "she", translation: "она" },
-        { word: "her", translation: "её / ей" },
-        { word: "we", translation: "мы" },
-        { word: "us", translation: "нас / нам" },
-        { word: "they", translation: "они" },
-        { word: "them", translation: "их / им" },
+        { word: "I", translation: "the speaker" },
+        { word: "me", translation: "to the speaker" },
+        { word: "my", translation: "belongs to me" },
+        { word: "he", translation: "one boy" },
+        { word: "him", translation: "to one boy" },
+        { word: "his", translation: "belongs to him" },
+        { word: "she", translation: "one girl" },
+        { word: "her", translation: "to one girl" },
+        { word: "we", translation: "I and others" },
+        { word: "us", translation: "to our group" },
+        { word: "they", translation: "other people" },
+        { word: "them", translation: "to other people" },
       ]).slice(0, 6),
     [],
   );
@@ -777,26 +777,25 @@ function PronounMemory({
     <section className="memory-game">
       <header className="game-top">
         <button className="back" onClick={back}>
-          <ArrowLeft /> КАРТА
+          <ArrowLeft /> MAP
         </button>
         <div className="mission-title">
-          <small>МИССИЯ 02</small>
+          <small>MISSION 02</small>
           <b>DOWNTOWN // ZOMBIE MEMORY</b>
         </div>
         <div className="hud">
           <span>
-            ПОПЫТКИ <b>{attempts}</b>
+            TRIES <b>{attempts}</b>
           </span>
           <Sound muted={muted} toggle={toggle} />
         </div>
       </header>
       <div className="memory-stage">
         <div className="memory-heading">
-          <small>СОЕДИНИ ПАРЫ</small>
-          <h2>МЕСТОИМЕНИЕ + ПЕРЕВОД</h2>
+          <small>MATCH THE PAIRS</small>
+          <h2>PRONOUN + MEANING</h2>
           <p>
-            Открой две карточки. Ошибаться можно сколько угодно — найди все
-            шесть пар.
+            Open two cards. You can try again and again. Find all six pairs.
           </p>
         </div>
         <div className="memory-grid">
@@ -814,7 +813,7 @@ function PronounMemory({
                   <b>{String(index + 1).padStart(2, "0")}</b>
                 </span>
                 <span className="card-face">
-                  <small>{card.kind === "word" ? "ENGLISH" : "ПЕРЕВОД"}</small>
+                  <small>{card.kind === "word" ? "PRONOUN" : "MEANING"}</small>
                   <b>{card.text}</b>
                 </span>
               </button>
@@ -822,7 +821,7 @@ function PronounMemory({
           })}
         </div>
         <div className="memory-status">
-          <span>НАЙДЕНО ПАР</span>
+          <span>PAIRS FOUND</span>
           <b>{matched.length} / 6</b>
           <i>
             <em style={{ width: `${(matched.length / 6) * 100}%` }} />
@@ -862,7 +861,7 @@ function ClothesHangman({
       const score = correct + 1;
       setCorrect(score);
       setCaught(true);
-      setFeedback("СЛОВО ВЕРНО — КЛЕТКА ЗАХЛОПНУЛАСЬ!");
+      setFeedback("RIGHT WORD — THE CAGE IS CLOSED!");
       setTimeout(() => {
         if (idx === 9) finish(score, 10, score * 150);
         else {
@@ -875,29 +874,29 @@ function ClothesHangman({
       }, 850);
     } else {
       setMisses((value) => value + 1);
-      setFeedback(`Подсказка: ${item.word[0]}… — ${item.ru}`);
+      setFeedback(`Hint: the word starts with ${item.word[0].toUpperCase()}`);
     }
   };
   return (
     <section className="hangman-game">
       <header className="game-top">
         <button className="back" onClick={back}>
-          <ArrowLeft /> КАРТА
+          <ArrowLeft /> MAP
         </button>
         <div className="mission-title">
-          <small>МИССИЯ 03</small>
+          <small>MISSION 03</small>
           <b>SHOPPING MALL // WORD CAGE</b>
         </div>
         <div className="hud">
           <span>
-            СЛОВА <b>{correct}/10</b>
+            WORDS <b>{correct}/10</b>
           </span>
           <Sound muted={muted} toggle={toggle} />
         </div>
       </header>
       <div className="hangman-stage">
         <div className="word-progress">
-          <span>ПРЕДМЕТ {idx + 1} / 10</span>
+          <span>ITEM {idx + 1} / 10</span>
           <i>
             <b style={{ width: `${(idx / 10) * 100}%` }} />
           </i>
@@ -922,11 +921,11 @@ function ClothesHangman({
               autoFocus
               value={typed}
               onChange={(event) => setTyped(event.target.value)}
-              placeholder="Напечатай слово по-английски"
-              aria-label="Ответ по-английски"
+              placeholder="Type the clothing word"
+              aria-label="Answer in English"
             />
             <button type="submit">
-              ЗАХЛОПНУТЬ КЛЕТКУ <ChevronRight />
+              CLOSE THE CAGE <ChevronRight />
             </button>
           </form>
           {feedback && (
@@ -937,15 +936,15 @@ function ClothesHangman({
           <img
             className="zombie-prisoner"
             src={`${import.meta.env.BASE_URL}images/zombies/${raceZombieImages[idx % 3]}`}
-            alt="Зомби рядом с клеткой"
+            alt="Zombie near the cage"
           />
           <img
             className="cage-art"
             src={`${import.meta.env.BASE_URL}images/traps/zombie-cage.png`}
-            alt="Металлическая клетка для зомби"
+            alt="Metal zombie cage"
           />
           <div className="danger">
-            <span>ОШИБКИ</span>
+            <span>MISTAKES</span>
             <b>{misses}</b>
           </div>
         </div>
@@ -984,15 +983,15 @@ function PastArena({
     <section className="past-arena">
       <header className="game-top">
         <button className="back" onClick={back}>
-          <ArrowLeft /> КАРТА
+          <ArrowLeft /> MAP
         </button>
         <div className="mission-title">
-          <small>МИССИЯ 01</small>
+          <small>MISSION 01</small>
           <b>SCHOOL DISTRICT // PAST SIMPLE</b>
         </div>
         <div className="hud">
           <span>
-            ОЧКИ <b>{correct * 100}</b>
+            SCORE <b>{correct * 100}</b>
           </span>
           <span className="lives">
             {[0, 1, 2].map((x) => (
@@ -1005,15 +1004,15 @@ function PastArena({
       <div className="past-stage">
         <div className="past-progress">
           <span>
-            ЗАДАНИЕ {idx + 1} / {total}
+            TASK {idx + 1} / {total}
           </span>
           <i>
             <b style={{ width: `${(idx / total) * 100}%` }} />
           </i>
-          {streak >= 2 && <strong>СЕРИЯ ×{streak}</strong>}
+          {streak >= 2 && <strong>STREAK ×{streak}</strong>}
         </div>
         <div className="past-question">
-          <small>НАЖМИ НА ЗОМБИ С ПРАВИЛЬНЫМ ОТВЕТОМ</small>
+          <small>CLICK THE ZOMBIE WITH THE RIGHT ANSWER</small>
           <h2>{current.prompt}</h2>
         </div>
         <div className="past-zombies">
@@ -1023,7 +1022,7 @@ function PastArena({
               className={`past-zombie pz-${i + 1} ${feedback && option === current.answer ? "past-caught" : ""}`}
               disabled={!!feedback}
               onClick={() => answer(option)}
-              aria-label={`Вариант ${i + 1}: ${option}`}
+              aria-label={`Choice ${i + 1}: ${option}`}
             >
               <span className="past-option">
                 <kbd>{i + 1}</kbd>
@@ -1041,10 +1040,10 @@ function PastArena({
           <div className={`past-flash ${feedback.ok ? "ok" : "bad"}`}>
             <div>{feedback.ok ? <Check /> : <X />}</div>
             <p>
-              <b>{feedback.ok ? "ЗОМБИ УНИЧТОЖЕН!" : feedback.text}</b>
+              <b>{feedback.ok ? "ZOMBIE STOPPED!" : feedback.text}</b>
               {!feedback.ok && (
                 <span>
-                  Правильный ответ: <strong>{current.answer}</strong>
+                  Right answer: <strong>{current.answer}</strong>
                 </span>
               )}
             </p>
@@ -1052,7 +1051,7 @@ function PastArena({
         )}
         <div className="past-distance">
           <Shield />
-          <span>БАРРИКАДА</span>
+          <span>BARRICADE</span>
           <b>{lives}/3</b>
         </div>
       </div>
@@ -1083,7 +1082,7 @@ function PronounRace({
           className={`race-zombie lane-${i + 1} ${feedback && option === answer ? "caught" : ""}`}
           onClick={() => choose(option)}
           disabled={!!feedback}
-          aria-label={`Поймать зомби ${i + 1}: ${option}`}
+          aria-label={`Catch zombie ${i + 1}: ${option}`}
         >
           <span className="race-label">
             <kbd>{i + 1}</kbd>
@@ -1131,10 +1130,10 @@ function ClothesQuestion({
           className={!hard ? "active" : ""}
           onClick={() => setHard(false)}
         >
-          ВЫБОР
+          CHOICE
         </button>
         <button className={hard ? "active" : ""} onClick={() => setHard(true)}>
-          ВВОД
+          TYPE
         </button>
       </div>
       <small className="rule">WHAT IS THIS?</small>
@@ -1156,7 +1155,7 @@ function ClothesQuestion({
             onChange={(e) => setTyped(e.target.value)}
             placeholder="Type the word…"
           />
-          <button>ОТВЕТИТЬ</button>
+          <button>ANSWER</button>
         </form>
       ) : (
         <div className="answers compact">
@@ -1188,36 +1187,36 @@ function Result({
         {result.won ? <Shield /> : <Skull />}
       </div>
       <p className="eyebrow">
-        <span /> МИССИЯ ЗАВЕРШЕНА
+        <span /> MISSION COMPLETE
       </p>
-      <h2>{result.won ? "РАЙОН ОЧИЩЕН" : "НУЖНО ПОДКРЕПЛЕНИЕ"}</h2>
+      <h2>{result.won ? "AREA CLEAR" : "TRY AGAIN"}</h2>
       <p>
         {result.won
-          ? meta[game].place + " снова под нашим контролем."
-          : `Нужно ${meta[game].goal} правильных ответов. Попробуй ещё раз!`}
+          ? meta[game].place + " is safe again."
+          : `You need ${meta[game].goal} right answers. Try again!`}
       </p>
       <div className="stats">
         <div>
           <b>
             {result.correct}/{result.total}
           </b>
-          <span>ПРАВИЛЬНО</span>
+          <span>RIGHT</span>
         </div>
         <div>
           <b>{Math.round((result.correct / result.total) * 100)}%</b>
-          <span>ТОЧНОСТЬ</span>
+          <span>ACCURACY</span>
         </div>
         <div>
           <b>+{result.score}</b>
-          <span>ОЧКИ</span>
+          <span>SCORE</span>
         </div>
       </div>
       <div className="result-actions">
         <button className="primary" onClick={map}>
-          <Map /> НА КАРТУ
+          <Map /> TO THE MAP
         </button>
         <button onClick={replay}>
-          <RotateCcw /> СЫГРАТЬ ЕЩЁ
+          <RotateCcw /> PLAY AGAIN
         </button>
       </div>
     </section>
@@ -1228,20 +1227,20 @@ function Victory({ score, reset }: { score: number; reset: () => void }) {
     <section className="victory">
       <div>
         <p className="eyebrow">
-          <span /> ОПЕРАЦИЯ ЗАВЕРШЕНА
+          <span /> OPERATION COMPLETE
         </p>
         <h1>
-          ГОРОД
+          CITY
           <br />
-          <em>СПАСЁН</em>
+          <em>SAVED</em>
         </h1>
-        <p>Три района очищены. Английский оказался сильнее эпидемии.</p>
+        <p>All three areas are clear. Your English stopped the outbreak.</p>
         <div className="victory-score">
-          <span>ИТОГОВЫЙ СЧЁТ</span>
+          <span>FINAL SCORE</span>
           <b>{score}</b>
         </div>
         <button className="primary huge" onClick={reset}>
-          НОВАЯ КАМПАНИЯ <ChevronRight />
+          NEW MISSION <ChevronRight />
         </button>
       </div>
     </section>

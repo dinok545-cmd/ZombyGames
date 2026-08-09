@@ -1,7 +1,69 @@
-export type Q={prompt:string;options:string[];answer:string;tip:string};
-export const past:Q[]=[
-['Yesterday I ___ to school.',['go','went','gone','going'],'went','Past Simple от go — went.'],['She ___ not see the zombie.',['do','does','did','was'],'did','В отрицании Past Simple используем did not.'],['___ they escape last night?',['Do','Did','Were','Are'],'Did','Вопрос в Past Simple начинается с Did.'],['We ___ the door an hour ago.',['close','closed','closes','closing'],'closed','Для правильных глаголов добавляем -ed.'],['He ___ a strange noise.',['hear','heard','heared','hears'],'heard','Вторая форма hear — heard.'],['The zombies ___ after midnight.',['arrive','arrived','arrives','are arriving'],'arrived','Законченное действие в прошлом: arrived.'],['I ___ my flashlight.',['lost','lose','losed','losing'],'lost','Вторая форма lose — lost.'],['They did not ___ us.',['found','find','finding','finds'],'find','После did используется начальная форма.'],['___ Anna lock the gate?',['Does','Was','Did','Has'],'Did','Did + подлежащее + начальная форма.'],['Tom ___ very brave.',['was','were','is','be'],'was','С Tom используем was.'],['We ___ inside the shelter.',['were','was','are','be'],'were','С we в прошлом используем were.'],['She ___ the map yesterday.',['read','reads','reading','readed'],'read','Read в Past Simple пишется так же: read.'],['The guard ___ the alarm.',['rang','ringed','rings','rung'],'rang','Вторая форма ring — rang.'],['I did not ___ afraid.',['felt','feel','feels','feeling'],'feel','После did not: feel.'],['They ___ across the street.',['ran','run','runned','runs'],'ran','Вторая форма run — ran.'],['___ you see that?',['Did','Do','Are','Have'],'Did','Указатель прошлого требует Did.'],['We ___ a safe place.',['found','finded','find','finding'],'found','Вторая форма find — found.'],['He ___ the window.',['broke','breaked','broken','break'],'broke','Вторая форма break — broke.'],['The bus ___ at nine.',['left','leave','leaved','leaves'],'left','Вторая форма leave — left.'],['I ___ my friends outside.',['met','meet','meeted','meets'],'met','Вторая форма meet — met.']].map(([prompt,options,answer,tip])=>({prompt,options,answer,tip} as Q));
-export const pronouns:Q[]=[
-['Sarah is my friend. ___ is brave.',['She','Her','Hers'],'She','She — подлежащее.'],['I can see Tom. I can see ___.',['he','him','his'],'him','После see нужна объектная форма him.'],['We live here. This is ___ shelter.',['we','us','our'],'our','Перед существительным нужна форма our.'],['Alex has a bag. It is ___.',['he','him','his'],'his','His может заменять his bag.'],['Kate called ___.',['I','me','my'],'me','После called нужна объектная форма me.'],['___ are waiting outside.',['They','Them','Their'],'They','В позиции подлежащего: they.'],['The dog follows ___.',['we','us','our'],'us','После follows: us.'],['This is Anna and ___ bike.',['she','her','hers'],'her','Перед bike: her.'],['Can you help ___?',['I','me','my'],'me','После help: me.'],['Ben says ___ is ready.',['he','him','his'],'he','Подлежащее перед is: he.'],['Those supplies are ___.',['they','them','theirs'],'theirs','Самостоятельная притяжательная форма: theirs.'],['___ flashlight is bright.',['You','Your','Yours'],'Your','Перед существительным: your.'],['The radio belongs to ___.',['she','her','hers'],'her','После to: her.'],['___ found the key.',['We','Us','Our'],'We','Подлежащее: we.'],['Give ___ the map.',['they','them','their'],'them','После give: them.'],['This coat is ___.',['I','me','mine'],'mine','Самостоятельная форма: mine.'],['___ am not scared.',['I','Me','My'],'I','С am используется I.'],['The teacher told ___ to hide.',['he','him','his'],'him','После told: him.'],['Is this ___ radio?',['you','your','yours'],'your','Перед radio: your.'],['___ house is safe.',['They','Them','Their'],'Their','Перед house: their.']].map(([prompt,options,answer,tip])=>({prompt,options,answer,tip} as Q));
-export type Cloth={word:string;ru:string;icon:string};
-export const clothes:Cloth[]=[['T-shirt','футболка','tee'],['shirt','рубашка','shirt'],['hoodie','толстовка','hoodie'],['jacket','куртка','jacket'],['coat','пальто','coat'],['dress','платье','dress'],['skirt','юбка','skirt'],['trousers','брюки','trousers'],['jeans','джинсы','jeans'],['shorts','шорты','shorts'],['socks','носки','socks'],['shoes','туфли','shoes'],['trainers','кроссовки','trainers'],['boots','ботинки','boots'],['cap','кепка','cap'],['hat','шляпа','hat'],['scarf','шарф','scarf'],['gloves','перчатки','gloves'],['belt','ремень','belt'],['sweater','свитер','sweater']].map(([word,ru,icon])=>({word,ru,icon}));
+export type Q = { prompt: string; options: string[]; answer: string; tip: string };
+
+const makeQuestions = (rows: [string, string[], string][]): Q[] =>
+  rows.map(([prompt, options, answer]) => ({
+    prompt,
+    options,
+    answer,
+    tip: `The right answer is ${answer}.`,
+  }));
+
+export const past: Q[] = makeQuestions([
+  ["Yesterday I ___ to school.", ["go", "went", "gone", "going"], "went"],
+  ["She ___ not see the zombie.", ["do", "does", "did", "was"], "did"],
+  ["___ they escape last night?", ["Do", "Did", "Were", "Are"], "Did"],
+  ["We ___ the door an hour ago.", ["close", "closed", "closes", "closing"], "closed"],
+  ["He ___ a strange noise.", ["hear", "heard", "heared", "hears"], "heard"],
+  ["The zombies ___ after midnight.", ["arrive", "arrived", "arrives", "are arriving"], "arrived"],
+  ["I ___ my flashlight.", ["lost", "lose", "losed", "losing"], "lost"],
+  ["They did not ___ us.", ["found", "find", "finding", "finds"], "find"],
+  ["___ Anna lock the gate?", ["Does", "Was", "Did", "Has"], "Did"],
+  ["Tom ___ very brave.", ["was", "were", "is", "be"], "was"],
+  ["We ___ inside the shelter.", ["were", "was", "are", "be"], "were"],
+  ["She ___ the map yesterday.", ["read", "reads", "reading", "readed"], "read"],
+  ["The guard ___ the alarm.", ["rang", "ringed", "rings", "rung"], "rang"],
+  ["I did not ___ afraid.", ["felt", "feel", "feels", "feeling"], "feel"],
+  ["They ___ across the street.", ["ran", "run", "runned", "runs"], "ran"],
+  ["___ you see that?", ["Did", "Do", "Are", "Have"], "Did"],
+  ["We ___ a safe place.", ["found", "finded", "find", "finding"], "found"],
+  ["He ___ the window.", ["broke", "breaked", "broken", "break"], "broke"],
+  ["The bus ___ at nine.", ["left", "leave", "leaved", "leaves"], "left"],
+  ["I ___ my friends outside.", ["met", "meet", "meeted", "meets"], "met"],
+]);
+
+export const pronouns: Q[] = makeQuestions([
+  ["Sarah is my friend. ___ is brave.", ["She", "Her", "Hers"], "She"],
+  ["I can see Tom. I can see ___.", ["he", "him", "his"], "him"],
+  ["We live here. This is ___ shelter.", ["we", "us", "our"], "our"],
+  ["Alex has a bag. It is ___.", ["he", "him", "his"], "his"],
+  ["Kate called ___.", ["I", "me", "my"], "me"],
+  ["___ are waiting outside.", ["They", "Them", "Their"], "They"],
+  ["The dog follows ___.", ["we", "us", "our"], "us"],
+  ["This is Anna and ___ bike.", ["she", "her", "hers"], "her"],
+  ["Can you help ___?", ["I", "me", "my"], "me"],
+  ["Ben says ___ is ready.", ["he", "him", "his"], "he"],
+  ["Those supplies are ___.", ["they", "them", "theirs"], "theirs"],
+  ["___ flashlight is bright.", ["You", "Your", "Yours"], "Your"],
+  ["The radio belongs to ___.", ["she", "her", "hers"], "her"],
+  ["___ found the key.", ["We", "Us", "Our"], "We"],
+  ["Give ___ the map.", ["they", "them", "their"], "them"],
+  ["This coat is ___.", ["I", "me", "mine"], "mine"],
+  ["___ am not scared.", ["I", "Me", "My"], "I"],
+  ["The teacher told ___ to hide.", ["he", "him", "his"], "him"],
+  ["Is this ___ radio?", ["you", "your", "yours"], "your"],
+  ["___ house is safe.", ["They", "Them", "Their"], "Their"],
+]);
+
+export type Cloth = { word: string; ru: string; icon: string };
+export const clothes: Cloth[] = [
+  ["T-shirt", "T-shirt", "tee"], ["shirt", "shirt", "shirt"],
+  ["hoodie", "hoodie", "hoodie"], ["jacket", "jacket", "jacket"],
+  ["coat", "coat", "coat"], ["dress", "dress", "dress"],
+  ["skirt", "skirt", "skirt"], ["trousers", "trousers", "trousers"],
+  ["jeans", "jeans", "jeans"], ["shorts", "shorts", "shorts"],
+  ["socks", "socks", "socks"], ["shoes", "shoes", "shoes"],
+  ["trainers", "trainers", "trainers"], ["boots", "boots", "boots"],
+  ["cap", "cap", "cap"], ["hat", "hat", "hat"],
+  ["scarf", "scarf", "scarf"], ["gloves", "gloves", "gloves"],
+  ["belt", "belt", "belt"], ["sweater", "sweater", "sweater"],
+].map(([word, ru, icon]) => ({ word, ru, icon }));
