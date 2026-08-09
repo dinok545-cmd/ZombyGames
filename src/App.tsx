@@ -341,13 +341,13 @@ function CityMap({
               <h3>{meta[g].title}</h3>
               <div className="topic">
                 <span>{meta[g].topic}</span>
-                <span>{g === "pronouns" ? "12 TASKS" : "10 TASKS"}</span>
+                <span>{g === "pronouns" ? "12 CARDS" : "10 TASKS"}</span>
               </div>
               <p>
                 {g === "past"
                   ? "Choose the correct verb form in the Past Simple."
                   : g === "pronouns"
-                    ? "Catch the infected while recalling English pronouns."
+                    ? "Match each sentence with the right pronoun."
                     : "Type the clothing word and catch the zombie."}
               </p>
               <button onClick={() => start(g)}>
@@ -716,31 +716,30 @@ function PronounMemory({
   const pairs = useMemo(
     () =>
       shuffle([
-        { word: "I", translation: "the speaker" },
-        { word: "me", translation: "to the speaker" },
-        { word: "my", translation: "belongs to me" },
-        { word: "he", translation: "one boy" },
-        { word: "him", translation: "to one boy" },
-        { word: "his", translation: "belongs to him" },
-        { word: "she", translation: "one girl" },
-        { word: "her", translation: "to one girl" },
-        { word: "we", translation: "I and others" },
-        { word: "us", translation: "to our group" },
-        { word: "they", translation: "other people" },
-        { word: "them", translation: "to other people" },
-      ]).slice(0, 6),
+        { sentence: "___ am ready.", pronoun: "I" },
+        { sentence: "Tom is brave. ___ can help us.", pronoun: "He" },
+        { sentence: "Anna has a key. ___ can open the door.", pronoun: "She" },
+        { sentence: "Sam and I are friends. ___ stay together.", pronoun: "We" },
+        { sentence: "The zombies are close. ___ are coming.", pronoun: "They" },
+        { sentence: "The door is strong. ___ is closed.", pronoun: "It" },
+      ]),
     [],
   );
   const cards = useMemo(
     () =>
       shuffle(
         pairs.flatMap((item, pair) => [
-          { id: `word-${pair}`, pair, kind: "word" as const, text: item.word },
           {
-            id: `translation-${pair}`,
+            id: `sentence-${pair}`,
             pair,
-            kind: "translation" as const,
-            text: item.translation,
+            kind: "sentence" as const,
+            text: item.sentence,
+          },
+          {
+            id: `pronoun-${pair}`,
+            pair,
+            kind: "pronoun" as const,
+            text: item.pronoun,
           },
         ]),
       ),
@@ -793,9 +792,9 @@ function PronounMemory({
       <div className="memory-stage">
         <div className="memory-heading">
           <small>MATCH THE PAIRS</small>
-          <h2>PRONOUN + MEANING</h2>
+          <h2>SENTENCE + PRONOUN</h2>
           <p>
-            Open two cards. You can try again and again. Find all six pairs.
+            Match each sentence with the right pronoun. Find all six pairs.
           </p>
         </div>
         <div className="memory-grid">
@@ -804,7 +803,7 @@ function PronounMemory({
             return (
               <button
                 key={card.id}
-                className={`memory-card ${visible ? "is-open" : ""} ${matched.includes(card.pair) ? "is-matched" : ""}`}
+                className={`memory-card ${card.kind} ${visible ? "is-open" : ""} ${matched.includes(card.pair) ? "is-matched" : ""}`}
                 onClick={() => flip(index)}
                 disabled={matched.includes(card.pair)}
               >
@@ -813,7 +812,7 @@ function PronounMemory({
                   <b>{String(index + 1).padStart(2, "0")}</b>
                 </span>
                 <span className="card-face">
-                  <small>{card.kind === "word" ? "PRONOUN" : "MEANING"}</small>
+                  <small>{card.kind === "sentence" ? "SENTENCE" : "PRONOUN"}</small>
                   <b>{card.text}</b>
                 </span>
               </button>
