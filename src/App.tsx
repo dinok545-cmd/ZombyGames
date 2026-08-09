@@ -15,12 +15,13 @@ export function App(){
  const sfx=useCallback((ok=true)=>{if(muted)return; const C=window.AudioContext||window.webkitAudioContext; audio.current??=new C(); const ctx=audio.current,o=ctx.createOscillator(),g=ctx.createGain();o.type=ok?'square':'sawtooth';o.frequency.setValueAtTime(ok?280:120,ctx.currentTime);o.frequency.exponentialRampToValueAtTime(ok?620:70,ctx.currentTime+.14);g.gain.setValueAtTime(.06,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.16);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+.17)},[muted]);
  const toggle=()=>{setMuted(v=>{const next=!v;localStorage.setItem('ze-muted',next?'1':'0');return next})};
  const toggleMusic=()=>{setMusicMuted(value=>{const next=!value;localStorage.setItem('ze-music-muted',next?'1':'0');raceMusic.setMuted(next);return next})};
- const start=(g:Game)=>{if(g==='pronouns')raceMusic.start(musicMuted);else raceMusic.stop();setGame(g);setScreen('game')};
- const leaveGame=()=>{raceMusic.stop();setScreen('map')};
- const finish=(correct:number,total:number,points:number)=>{raceMusic.stop();const won=correct>=meta[game].goal;setScore(s=>s+points);setResult({correct,total,won,score:points});if(won&&!cleared.includes(game))setCleared([...cleared,game]);setScreen(won&&cleared.length===2?'victory':'result')};
+ const openMap=()=>{raceMusic.start(musicMuted,'menu');setScreen('map')};
+ const start=(g:Game)=>{raceMusic.start(musicMuted,g);setGame(g);setScreen('game')};
+ const leaveGame=()=>{raceMusic.start(musicMuted,'menu');setScreen('map')};
+ const finish=(correct:number,total:number,points:number)=>{raceMusic.start(musicMuted,'menu');const won=correct>=meta[game].goal;setScore(s=>s+points);setResult({correct,total,won,score:points});if(won&&!cleared.includes(game))setCleared([...cleared,game]);setScreen(won&&cleared.length===2?'victory':'result')};
  return <main className={`app screen-${screen}`}>
   <AudioControls musicMuted={musicMuted} soundMuted={muted} toggleMusic={toggleMusic} toggleSound={toggle}/>
-  {screen==='home'&&<Home onStart={()=>setScreen('map')} muted={muted} toggle={toggle}/>} 
+  {screen==='home'&&<Home onStart={openMap} muted={muted} toggle={toggle}/>} 
   {screen==='map'&&<CityMap cleared={cleared} score={score} start={start} home={()=>setScreen('home')} muted={muted} toggle={toggle}/>} 
   {screen==='game'&&<GameScreen key={game+Date.now()} game={game} finish={finish} back={leaveGame} sfx={sfx} muted={muted} toggle={toggle}/>} 
   {screen==='result'&&<Result result={result} game={game} replay={()=>start(game)} map={()=>setScreen('map')}/>} 
